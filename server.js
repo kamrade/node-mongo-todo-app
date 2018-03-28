@@ -9,8 +9,6 @@ const PORT = 3200;
 const app = express();
 app.use(bodyParser.json());
 
-console.log(_paths);
-
 // API --------------------------------
 
 app.post(_paths.addTodo, (req, res) => {
@@ -29,9 +27,15 @@ app.post(_paths.addTodo, (req, res) => {
 
 });
 
+app.get(_paths.getTodos, (req, res) => {
+  Todo.find().then((todos) => {
+    res.send({todos, testCode: '123'});
+  }, (err) => {
+    res.send(400).send(err);
+  });
+});
+
 // --------------------------------------
-
-
 
 app.listen(PORT, () => {
   console.log(`Started server on port ${PORT}`);
