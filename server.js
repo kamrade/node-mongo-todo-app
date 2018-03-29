@@ -4,12 +4,12 @@ const express      = require('express');
 const bodyParser   = require('body-parser');
 const { ObjectID } = require('mongodb');
 
-const { mongoose } = require('./db/mongoose');
+const { mongoose, port } = require('./db/mongoose');
 const { Todo }     = require('./models/todo');
 const { User }     = require('./models/user');
 
 const _paths       = require('./data/paths');
-const PORT         = process.env.PORT || 3200;
+const PORT         = port;
 const app          = express();
 
 // MIDDLEWARE -------------------------
