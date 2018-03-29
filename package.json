@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "NODE_ENV=dev nodemon --exec 'npm start'",
-    "test": "mocha server.test.js",
+    "test": "NODE_ENV=dev mocha server.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
