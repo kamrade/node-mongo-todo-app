@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3200;
 const app = express();
 app.use(bodyParser.json());
 
+// TEST -------------------------------
+
+console.log('current environment: ', process.env.NODE_ENV);
+
 // API --------------------------------
 
 // create todo
