@@ -7,7 +7,7 @@ const { Todo }     = require('./models/todo');
 const { User }     = require('./models/user');
 
 const _paths = require('./data/paths');
-const PORT = 3200;
+const PORT = process.env.PORT || 3200;
 const app = express();
 app.use(bodyParser.json());
 
@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 
 // create todo
 app.post(_paths.addTodo, (req, res) => {
+
+  console.log(':: add todo');
+
   let todo = new Todo({
     text: req.body.text
   });
