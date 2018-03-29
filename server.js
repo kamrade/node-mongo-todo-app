@@ -15,6 +15,10 @@ app.use(bodyParser.json());
 
 console.log('current environment: ', process.env.NODE_ENV);
 
+app.get('/', (req,res) => {
+  res.status(200).send(`mode: ${process.env.NODE_ENV}`)
+});
+
 // API --------------------------------
 
 // create todo
