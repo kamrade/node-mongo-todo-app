@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const express      = require('express');
 const bodyParser   = require('body-parser');
 const { ObjectID } = require('mongodb');
@@ -6,9 +8,12 @@ const { mongoose } = require('./db/mongoose');
 const { Todo }     = require('./models/todo');
 const { User }     = require('./models/user');
 
-const _paths = require('./data/paths');
-const PORT = process.env.PORT || 3200;
-const app = express();
+const _paths       = require('./data/paths');
+const PORT         = process.env.PORT || 3200;
+const app          = express();
+
+// MIDDLEWARE -------------------------
+
 app.use(bodyParser.json());
 
 // TEST -------------------------------
@@ -16,7 +21,7 @@ app.use(bodyParser.json());
 console.log('current environment: ', process.env.NODE_ENV);
 
 app.get('/', (req,res) => {
-  res.status(200).send(`mode: ${process.env.NODE_ENV}`)
+  res.status(200).send(`mode: ${process.env.NODE_ENV}`);
 });
 
 // API --------------------------------
@@ -68,6 +73,7 @@ app.get(`${_paths.getTodos}/:id`, (req, res) => {
   }
 });
 
+// delete one todo by id
 app.delete(`${_paths.removeTodos}/:id`, (req, res) => {
   let id = req.params.id;
 
@@ -84,9 +90,34 @@ app.delete(`${_paths.removeTodos}/:id`, (req, res) => {
     }).catch(err => {
       res.status(400).send();
     })
+});
 
-  // validate the id
+// edit one todo by id
+app.patch(`${_paths.editTodo}/:id`, (req, res) => {
+  let id   = req.params.id;
+  let body = _.pick(req.body, ['text', 'completed']);
 
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send();
+  }
+
+  if (_.isBoolean(body.completed) && body.completed) {
+    body.completedAt = new Date().getTime();
+  } else {
+    body.completed = false;
+    body.completedAt = null;
+  }
+
+  Todo.findByIdAndUpdate(id, {$set: body}, {new: true})
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send();
+      }
+      res.send({todo});
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
 });
 
 // --------------------------------------
