@@ -4,7 +4,7 @@ const { ObjectID } = require('mongodb');
 
 const { app }  = require('./server');
 const { Todo } = require('./models/todo');
-const _paths require('./data/paths');
+const _paths   = require('./data/paths');
 
 const todos = [{
   _id: new ObjectID(),
