@@ -1,4 +1,7 @@
 const express = require('express');
+const { ObjectID } = require('mongodb');
+const _ = require('lodash');
+
 let todosRouter = express.Router();
 const { Todo }     = require('../models/todo');
 const { User }     = require('../models/user');
@@ -24,6 +27,9 @@ todosRouter.post('/', (req, res) => {
 
 // get all todos
 todosRouter.get('/', (req, res) => {
+
+  console.log(':: get all todos');
+
   Todo.find().then((todos) => {
     res.send({todos, testCode: '123'});
   }, (err) => {
@@ -33,6 +39,9 @@ todosRouter.get('/', (req, res) => {
 
 // get one todo by id
 todosRouter.get('/:id', (req, res) => {
+
+  console.log(':: get todo by id');
+
   let id = req.params.id;
   if (ObjectID.isValid(id)) {
 
@@ -52,6 +61,9 @@ todosRouter.get('/:id', (req, res) => {
 
 // delete one todo by id
 todosRouter.delete('/:id', (req, res) => {
+
+  console.log(':: remove todo');
+
   let id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -71,6 +83,9 @@ todosRouter.delete('/:id', (req, res) => {
 
 // edit one todo by id
 todosRouter.patch('/:id', (req, res) => {
+
+  console.log(':: edit todo');
+
   let id   = req.params.id;
   let body = _.pick(req.body, ['text', 'completed']);
 
