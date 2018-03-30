@@ -4,6 +4,7 @@ const { pick, isBoolean } = require('lodash');
 
 let usersRouter = express.Router();
 const { User } = require('../models/user');
+const { authenticate } = require('../middleware/authenticate');
 
 // ::test GET /users
 usersRouter.get('/', (req, res) => {
@@ -22,6 +23,11 @@ usersRouter.post('/', (req, res) => {
   }).catch(e => {
     res.status(400).send(e);
   });
-})
+});
+
+
+usersRouter.get('/me', authenticate, (req, res) => {
+  res.send(req.user);
+});
 
 module.exports = usersRouter;
