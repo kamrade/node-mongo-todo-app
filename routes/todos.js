@@ -1,10 +1,10 @@
 const express = require('express');
 const { ObjectID } = require('mongodb');
-const _ = require('lodash');
+// const _ = require('lodash');
+const { pick, isBoolean } = require('lodash');
 
 let todosRouter = express.Router();
 const { Todo }     = require('../models/todo');
-const { User }     = require('../models/user');
 
 // create todo
 todosRouter.post('/', (req, res) => {
@@ -17,7 +17,6 @@ todosRouter.post('/', (req, res) => {
 
   todo.save((err, doc) => {
       if (err) {
-        // is better to handling errors here
         res.status(400).send(err);
       } else {
         res.send(doc);
@@ -87,13 +86,13 @@ todosRouter.patch('/:id', (req, res) => {
   console.log(':: edit todo');
 
   let id   = req.params.id;
-  let body = _.pick(req.body, ['text', 'completed']);
+  let body = pick(req.body, ['text', 'completed']);
 
   if (!ObjectID.isValid(id)) {
     return res.status(400).send();
   }
 
-  if (_.isBoolean(body.completed) && body.completed) {
+  if (isBoolean(body.completed) && body.completed) {
     body.completedAt = new Date().getTime();
   } else {
     body.completed = false;

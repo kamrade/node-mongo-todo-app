@@ -6,6 +6,7 @@ const _paths       = require('./data/paths');
 const PORT         = port;
 
 const app          = express();
+const usersRouter  = require('./routes/users');
 const todosRouter  = require('./routes/todos');
 
 // MIDDLEWARE -------------------------
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 // API --------------------------------
 
+app.use(_paths.users, usersRouter);
 app.use(_paths.todos, todosRouter);
 
 // --------------------------------------
