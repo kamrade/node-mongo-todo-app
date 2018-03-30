@@ -4,7 +4,7 @@ const { ObjectID } = require('mongodb');
 
 const { app }  = require('./server');
 const { Todo } = require('./models/todo');
-const _paths   = require('./data/paths');
+const _paths require('./data/paths');
 
 const todos = [{
   _id: new ObjectID(),
@@ -29,7 +29,7 @@ describe('POST /todos', () => {
     let text = 'Test todo text';
 
     request(app)
-      .post(_paths.addTodo)
+      .post(_paths.todos)
       .send({ text })
       .expect(200)
       .expect(res => {
@@ -50,7 +50,7 @@ describe('POST /todos', () => {
 
   it('should not create todo with invalid body data', (done) => {
     request(app)
-      .post(_paths.addTodo)
+      .post(_paths.todos)
       .send({})
       .expect(400)
       .end((err,res) => {
@@ -69,7 +69,7 @@ describe('POST /todos', () => {
 describe('GET /todos', () => {
   it('should get all todos', (done) => {
     request(app)
-      .get(_paths.getTodos)
+      .get(_paths.todos)
       .expect(200)
       .expect((res) => {
         expect(res.body.todos.length).toBe(2)
@@ -82,7 +82,7 @@ describe('GET /todos', () => {
 describe('GET /todos/:id', () => {
   it('should return todo doc', (done) => {
     request(app)
-      .get(`${_paths.getTodos}/${todos[0]._id.toHexString()}`)
+      .get(`${_paths.todos}/${todos[0]._id.toHexString()}`)
       .expect(200)
       .expect(res => {
         expect(res.body.todo.text).toBe(todos[0].text)
@@ -92,14 +92,14 @@ describe('GET /todos/:id', () => {
 
   it('should return 404 if todo not found', (done) => {
     request(app)
-      .get(`${_paths.getTodos}/${(new ObjectID()).toHexString()}`)
+      .get(`${_paths.todos}/${(new ObjectID()).toHexString()}`)
       .expect(404)
       .end(done);
   });
 
   it('should return 400 if object id is invalid', (done) => {
     request(app)
-      .get(`${_paths.getTodos}/${'123'}`)
+      .get(`${_paths.todos}/${'123'}`)
       .expect(400)
       .end(done);
   });
@@ -110,7 +110,7 @@ describe('DELETE /todos/:id', () => {
   it('should remove a todo doc', (done) => {
     let hexId = todos[0]._id.toHexString();
     request(app)
-      .delete(`${_paths.getTodos}/${hexId}`)
+      .delete(`${_paths.todos}/${hexId}`)
       .expect(200)
       .expect(res => {
         expect(res.body.todo._id).toBe(hexId);
@@ -130,14 +130,14 @@ describe('DELETE /todos/:id', () => {
   it('should return 404 if todo not found', (done) => {
     let hexId = new ObjectID().toHexString();
     request(app)
-      .delete(`${_paths.getTodos}/${hexId}`)
+      .delete(`${_paths.todos}/${hexId}`)
       .expect(404)
       .end(done);
   });
 
   it('should return 400 if object id is invalid', (done) => {
     request(app)
-      .delete(`${_paths.getTodos}/123asd`)
+      .delete(`${_paths.todos}/123asd`)
       .expect(400)
       .end(done);
   });
