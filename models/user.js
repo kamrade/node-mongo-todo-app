@@ -34,6 +34,7 @@ let UserSchema = new mongoose.Schema({
   }]
 });
 
+// override toJSON method
 UserSchema.methods.toJSON = function() {
   let user = this;
   let userObject = user.toObject();
@@ -44,7 +45,11 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
   let user   = this;
   let access = 'auth';
-  let token  = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+  let token  = jwt.sign({
+    _id: user._id.toHexString(),
+    access
+  }, 'abc123').toString();
+
   user.tokens.push({ access, token });
 
   return user.save().then(() => {
@@ -73,4 +78,4 @@ UserSchema.statics.findByToken = function(token) {
 
 let User = mongoose.model('User', UserSchema);
 
-module.exports = {User};
+module.exports = { User };
