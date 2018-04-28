@@ -6,23 +6,10 @@ const { app }  = require('./server');
 const { Todo } = require('./models/todo');
 const _paths   = require('./data/paths');
 
-const todos = [{
-  _id: new ObjectID(),
-  text: 'First test todo'
-}, {
-  _id: new ObjectID(),
-  text: 'Second test todo',
-  completed: true,
-  completedAt: 333
-}];
+const { todos, populateTodos, users, populateUsers } = require('./test/seed/seed');
 
-beforeEach((done) => {
-  Todo.remove({})
-    .then( () => {
-      return Todo.insertMany(todos);
-    }).then(() => done());
-
-});
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
 describe('POST /todos', () => {
   it('should create a new todo', (done) => {
@@ -184,4 +171,4 @@ describe('PATCH /todos/:id', () => {
 
   });
 
-})
+});
