@@ -1,20 +1,27 @@
-const { SHA256 } = require('crypto-js');
-const jwt = require('jsonwebtoken');
+// const { SHA256 } = require('crypto-js');
+// const jwt = require('jsonwebtoken');
 
-let data = {
-  id: 10
-};
+const bcrypt = require('bcryptjs');
 
-let token = jwt.sign(data, '123abc');
-console.log(token);
+let password = '123abc!';
 
-let decoded = jwt.verify(token, '123abc');
-console.log('decdoded:', decoded);
-
-
+bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.hash(password, salt, (err, hash) => {
+    console.log(hash);
+  });
+});
 
 
 
+// let data = {
+//   id: 10
+// };
+//
+// let token = jwt.sign(data, '123abc');
+// console.log(token);
+//
+// let decoded = jwt.verify(token, '123abc');
+// console.log('decdoded:', decoded);
 
 //
 // let message = 'I am user number 3';
