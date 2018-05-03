@@ -32,4 +32,16 @@ usersRouter.get('/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
+usersRouter.post('/login', (req, res) => {
+  let body = pick(req.body, ['email', 'password']);
+  User.findByCredentials(body.email, body.password)
+    .then((user) => {
+      return user.generateAuthToken().then((token) => {
+        res.header('x-auth', token).send(user);
+      });
+    }).catch((e) => {
+      res.status(400).send();
+    });
+});
+
 module.exports = usersRouter;
