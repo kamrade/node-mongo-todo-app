@@ -2,7 +2,8 @@ const { ObjectID } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const { Todo } = require('./../../models/todo');
 const { User } = require('./../../models/user');
-const secret = require('./../../data/secret');
+// const secret = require('./../../data/secret');
+const secret = process.env.JWT_SECRET;
 
 let userOneId = new ObjectID();
 let userTwoId = new ObjectID();

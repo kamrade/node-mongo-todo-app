@@ -2,7 +2,8 @@ const mongoose  = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const { pick } = require('lodash');
-const secret = require('../data/secret');
+// const secret = require('../data/secret');
+const secret = process.env.JWT_SECRET;
 const bcrypt = require('bcryptjs');
 
 let UserSchema = new mongoose.Schema({
