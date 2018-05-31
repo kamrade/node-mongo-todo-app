@@ -22,7 +22,9 @@ if (env === 'dev') {
 }
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`${url}/${dbName}`);
+mongoose.connect(`${url}/${dbName}`)
+  .then(() => console.log(':: connected to mongodb'))
+  .catch(e => console.log(':: error', e.message));
 
 module.exports = {
   mongoose,
