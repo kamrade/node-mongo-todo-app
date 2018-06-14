@@ -1,0 +1,14 @@
+{
+  "test": {
+    "PORT": 3232,
+    "DB_NAME": "TestTodos",
+    "MONGODB_URI": "mongodb://localhost:27017",
+    "JWT_SECRET": "s8jkhsdks551fosdjkf14jhsdupyuio238723nkj"
+  },
+  "dev": {
+    "PORT": 3200,
+    "DB_NAME": "Todos",
+    "MONGODB_URI": "mongodb://localhost:27017",
+    "JWT_SECRET": "iokjjoi9u23i42ioiuh5j34hijh6ij4h45j6h4ij"
+  }
+}

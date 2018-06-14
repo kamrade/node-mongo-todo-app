@@ -58,4 +58,4 @@ doc/
 .DS_Store
 .idea
 .secret
-config/config.json
+# config/config.json
